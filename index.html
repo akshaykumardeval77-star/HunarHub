@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HunarHub | Digital Marketplace for Local Micro-Entrepreneurs</title>
+  <meta name="description" content="Discover and empower local micro-entrepreneurs - potters, cobblers, tailors, artisans, and vendors. Book services directly or buy handmade authentic crafts.">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- HunarHub Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-hunar navbar-expand-lg">
+    <div class="container">
+      <a class="brand-logo" href="index.html">
+        <div class="logo-icon"><i class="bi bi-shop-window"></i></div>
+        <div>Hunar<span class="highlight">Hub</span></div>
+      </a>
+
+      <!-- Role Switcher Pills -->
+      <div class="role-switcher-badge ms-lg-4 me-auto my-2 my-lg-0">
+        <a href="index.html" class="role-btn active"><i class="bi bi-person-heart"></i> Customer Marketplace</a>
+        <a href="entrepreneur.html" class="role-btn"><i class="bi bi-briefcase-fill"></i> Entrepreneur Portal</a>
+        <a href="admin.html" class="role-btn"><i class="bi bi-shield-lock-fill"></i> Admin Governance</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <button class="cart-trigger-btn" id="cart-trigger">
+          <i class="bi bi-bag-fill fs-5"></i>
+          <span>Cart</span>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+
+        <button class="btn btn-hunar-outline btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+          <i class="bi bi-box-arrow-in-right"></i> Login / Join
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold">
+            <i class="bi bi-award-fill"></i> Vocal for Local • Direct Artisan Marketplace
+          </span>
+          <h1 class="hero-title">Empowering Local Micro-Entrepreneurs & Traditional Crafts</h1>
+          <p class="hero-subtitle">
+            Connect directly with verified potters, cobblers, tailors, weavers, and local artisans. Book service requests or buy authentic handmade products without middlemen.
+          </p>
+
+          <!-- Search Bar -->
+          <div class="hero-search-box">
+            <i class="bi bi-search text-muted fs-5 ms-3"></i>
+            <input type="text" id="search-input" class="hero-search-input" placeholder="Search by skill, product (e.g. Clay Matka, Kolhapuri, Stitching)...">
+            <select id="location-filter" class="hero-search-select">
+              <option value="all">📍 All Locations</option>
+              <option value="Varanasi">Varanasi, UP</option>
+              <option value="Jaipur">Jaipur, RJ</option>
+              <option value="Kolhapur">Kolhapur, MH</option>
+              <option value="Saharanpur">Saharanpur, UP</option>
+            </select>
+            <button class="btn btn-hunar-primary" onclick="renderEntrepreneurs()">
+              Discover Talent
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container my-5">
+    
+    <!-- Category Filter Horizontal Scroll -->
+    <div class="category-filter-wrapper">
+      <div class="category-filter-scroll" id="category-pills-container">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Section 1: Micro-Entrepreneurs Directory -->
+    <section class="mb-5">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <h2 class="section-title">Verified Micro-Entrepreneurs</h2>
+          <p class="section-subtitle mb-0">Book custom service requests or view skilled profiles near you</p>
+        </div>
+      </div>
+      <div class="row" id="entrepreneurs-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Section 2: Handmade Product Marketplace -->
+    <section class="mb-5 py-4 px-4 bg-white rounded-4 shadow-sm border">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill fw-bold mb-2">100% Authentic Handcrafts</span>
+          <h2 class="section-title">Direct-from-Artisan Crafts Marketplace</h2>
+          <p class="section-subtitle mb-0">Buy genuine terracotta pottery, leather footwear, Chikankari kurtis, and woodcarvings</p>
+        </div>
+      </div>
+      <div class="row" id="products-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Section 3: Impact & How It Works -->
+    <section class="my-5 py-5 bg-gradient rounded-4 text-white p-4" style="background: linear-gradient(135deg, var(--secondary), #2c416a);">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold mb-3">Community Growth</span>
+          <h2 class="fw-bold mb-3 text-white">Why Support HunarHub Artisans?</h2>
+          <div class="d-flex gap-3 mb-3">
+            <div class="fs-2 text-warning"><i class="bi bi-cash-coin"></i></div>
+            <div>
+              <h5 class="fw-bold mb-1">Zero Middlemen Commission</h5>
+              <p class="small text-light opacity-75">100% of service and product proceeds go directly to the micro-entrepreneur's bank account.</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3 mb-3">
+            <div class="fs-2 text-warning"><i class="bi bi-shield-check"></i></div>
+            <div>
+              <h5 class="fw-bold mb-1">Verified Craftsmanship</h5>
+              <p class="small text-light opacity-75">All artisans undergo identity and skill validation by our platform admin team.</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3">
+            <div class="fs-2 text-warning"><i class="bi bi-flower1"></i></div>
+            <div>
+              <h5 class="fw-bold mb-1">Preserve Traditional Heritage</h5>
+              <p class="small text-light opacity-75">Help ancient Indian skills like pitloom weaving and earthenware pottery flourish in the digital era.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3 text-center">
+            <div class="col-6">
+              <div class="p-4 bg-white bg-opacity-10 rounded-4 backdrop-blur border border-white border-opacity-10">
+                <h2 class="fw-extrabold text-warning mb-0">500+</h2>
+                <div class="small fw-semibold">Local Artisans Onboarded</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-4 bg-white bg-opacity-10 rounded-4 backdrop-blur border border-white border-opacity-10">
+                <h2 class="fw-extrabold text-warning mb-0">₹12.4L</h2>
+                <div class="small fw-semibold">Entrepreneur Income Generated</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-4 bg-white bg-opacity-10 rounded-4 backdrop-blur border border-white border-opacity-10">
+                <h2 class="fw-extrabold text-warning mb-0">1,850+</h2>
+                <div class="small fw-semibold">Service Requests Fulfilled</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-4 bg-white bg-opacity-10 rounded-4 backdrop-blur border border-white border-opacity-10">
+                <h2 class="fw-extrabold text-warning mb-0">4.9 ★</h2>
+                <div class="small fw-semibold">Average Customer Satisfaction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Slide-Out Shopping Cart Drawer -->
+  <div class="cart-drawer-backdrop" id="cart-backdrop"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h5 class="mb-0 fw-bold"><i class="bi bi-bag-heart-fill text-primary"></i> Your Craft Cart</h5>
+      <button type="button" class="btn-close" id="cart-close"></button>
+    </div>
+    <div class="cart-body" id="cart-items-container">
+      <!-- Cart Items rendered via JS -->
+    </div>
+    <div class="cart-footer">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="fw-semibold text-secondary">Total Amount:</span>
+        <span class="fw-bold fs-4 text-primary" id="cart-total-price">₹0</span>
+      </div>
+      <button class="btn btn-hunar-primary w-100 py-3" onclick="checkoutCart()">
+        <i class="bi bi-credit-card-fill"></i> Checkout & Place Order
+      </button>
+    </div>
+  </div>
+
+  <!-- Entrepreneur Profile Modal -->
+  <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">Entrepreneur Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="profileModalBody">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Request Modal -->
+  <div class="modal fade" id="serviceRequestModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-calendar-plus text-primary"></i> Place Service Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="serviceRequestModalBody">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Onboarding / Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold text-secondary">Sign In / Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-pills nav-justified mb-3" id="authTab" role="tablist">
+            <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="pill" data-bs-target="#customer-login">Customer</button></li>
+            <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#entrepreneur-onboard">Artisan Onboarding</button></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="customer-login">
+              <form onsubmit="event.preventDefault(); bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide(); showToast('Welcome back, Customer!');">
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Phone Number / Email</label>
+                  <input type="text" class="form-control" placeholder="+91 98765 43210" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Password</label>
+                  <input type="password" class="form-control" value="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-hunar-primary w-100">Sign In as Customer</button>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="entrepreneur-onboard">
+              <form onsubmit="event.preventDefault(); bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide(); showToast('Application submitted! Admin will verify your profile within 24 hours.');">
+                <div class="mb-2">
+                  <label class="form-label small fw-semibold">Full Name</label>
+                  <input type="text" class="form-control" placeholder="e.g. Ramesh Cobbler" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-semibold">Skill / Category</label>
+                  <select class="form-select" required>
+                    <option value="potter">Potter (Kumhar)</option>
+                    <option value="cobbler">Cobbler (Mochi)</option>
+                    <option value="tailor">Tailor (Darzi)</option>
+                    <option value="artisan">Artisan (Shilpkar)</option>
+                    <option value="weaver">Weaver (Bunkar)</option>
+                    <option value="vendor">Small Vendor</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-semibold">City & State</label>
+                  <input type="text" class="form-control" placeholder="e.g. Varanasi, UP" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold">Aadhaar / ID Verification Proof</label>
+                  <input type="file" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-hunar-secondary w-100">Apply for Verification</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="brand-logo mb-3 text-white">
+            <div class="logo-icon"><i class="bi bi-shop-window"></i></div>
+            <div class="text-white">Hunar<span class="highlight">Hub</span></div>
+          </div>
+          <p class="small opacity-75">
+            HunarHub is a digital marketplace initiative empowering local micro-entrepreneurs, small artisans, potters, cobblers, and tailors with direct customer discovery and simple digital management tools.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h5>Categories</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="#" onclick="filterByCategory('potter')">Potter (Kumhar)</a></li>
+            <li class="mb-2"><a href="#" onclick="filterByCategory('cobbler')">Cobbler (Mochi)</a></li>
+            <li class="mb-2"><a href="#" onclick="filterByCategory('tailor')">Tailor (Darzi)</a></li>
+            <li class="mb-2"><a href="#" onclick="filterByCategory('artisan')">Artisans & Handicrafts</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h5>Platform</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="index.html">Marketplace</a></li>
+            <li class="mb-2"><a href="entrepreneur.html">Entrepreneur Dashboard</a></li>
+            <li class="mb-2"><a href="admin.html">Admin Governance</a></li>
+            <li class="mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Artisan Verification</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h5>Impact & Support</h5>
+          <p class="small opacity-75 mb-3">Supporting traditional Indian arts, sustainable commerce, and zero-commission micro-entrepreneurship.</p>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-whatsapp"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        © 2026 HunarHub Platform. Built for Local Micro-Entrepreneurs. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initMarketplace();
+    });
+  </script>
+</body>
+</html>

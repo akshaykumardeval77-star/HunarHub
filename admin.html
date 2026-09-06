@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Governance & Analytics | HunarHub</title>
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- HunarHub Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-hunar navbar-expand-lg">
+    <div class="container">
+      <a class="brand-logo" href="index.html">
+        <div class="logo-icon"><i class="bi bi-shop-window"></i></div>
+        <div>Hunar<span class="highlight">Hub</span></div>
+      </a>
+
+      <!-- Role Switcher Pills -->
+      <div class="role-switcher-badge ms-lg-4 me-auto my-2 my-lg-0">
+        <a href="index.html" class="role-btn"><i class="bi bi-person-heart"></i> Customer Marketplace</a>
+        <a href="entrepreneur.html" class="role-btn"><i class="bi bi-briefcase-fill"></i> Entrepreneur Portal</a>
+        <a href="admin.html" class="role-btn active"><i class="bi bi-shield-lock-fill"></i> Admin Governance</a>
+      </div>
+
+      <div class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-bold border">
+        <i class="bi bi-person-badge-fill text-primary"></i> Super Admin Mode
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Banner -->
+  <header class="bg-secondary text-white py-4 mb-4">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="fw-bold mb-1"><i class="bi bi-shield-check text-warning"></i> Platform Governance & Admin Oversight</h2>
+          <p class="small text-white-50 mb-0">Verify micro-entrepreneurs, manage categories, supervise orders, and analyze economic impact.</p>
+        </div>
+        <button class="btn btn-warning btn-sm rounded-pill fw-bold" onclick="resetDatabaseToSeed()">
+          <i class="bi bi-arrow-counterclockwise"></i> Reset Demo Database State
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container mb-5">
+    
+    <!-- Analytics Stats Grid -->
+    <div class="row g-3 mb-4" id="admin-stats-grid">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Admin Tabs Navigation -->
+    <ul class="nav nav-pills mb-4 bg-white p-2 rounded-4 shadow-sm border" id="adminTabs" role="tablist">
+      <li class="nav-item me-1">
+        <button class="nav-link active fw-bold" id="approvals-tab" data-bs-toggle="tab" data-bs-target="#approvals-pane">
+          <i class="bi bi-person-check-fill"></i> Verification Queue <span class="badge bg-danger rounded-circle ms-1" id="pending-verification-count">0</span>
+        </button>
+      </li>
+      <li class="nav-item me-1">
+        <button class="nav-link fw-bold" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories-pane">
+          <i class="bi bi-diagram-3-fill"></i> Skill Taxonomy & Categories
+        </button>
+      </li>
+      <li class="nav-item me-1">
+        <button class="nav-link fw-bold" id="supervision-tab" data-bs-toggle="tab" data-bs-target="#supervision-pane">
+          <i class="bi bi-eye-fill"></i> Orders & Requests Audit
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link fw-bold" id="entrepreneurs-list-tab" data-bs-toggle="tab" data-bs-target="#entrepreneurs-list-pane">
+          <i class="bi bi-people-fill"></i> All Onboarded Artisans
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content">
+
+      <!-- 1. Verification Queue Pane -->
+      <div class="tab-pane fade show active" id="approvals-pane">
+        <div class="bg-white rounded-4 p-4 shadow-sm border">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold text-secondary mb-0"><i class="bi bi-patch-check-fill text-primary"></i> Pending Entrepreneur Verification Applications</h4>
+            <span class="text-muted small">Verify identity documents and skill background before granting Verified status</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Applicant Name</th>
+                  <th>Skill Category</th>
+                  <th>Location</th>
+                  <th>Experience</th>
+                  <th>ID Verification Proof</th>
+                  <th>Applied Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="verification-table-body">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Skill Taxonomy Pane -->
+      <div class="tab-pane fade" id="categories-pane">
+        <div class="bg-white rounded-4 p-4 shadow-sm border">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h4 class="fw-bold text-secondary mb-1"><i class="bi bi-tags-fill text-primary"></i> Micro-Entrepreneur Categories</h4>
+              <p class="text-muted small mb-0">Manage skill categories available on the HunarHub discovery portal</p>
+            </div>
+            <button class="btn btn-hunar-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+              <i class="bi bi-plus-lg"></i> Add New Skill Category
+            </button>
+          </div>
+
+          <div class="row g-3" id="admin-categories-grid">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Orders Supervision Pane -->
+      <div class="tab-pane fade" id="supervision-pane">
+        <div class="bg-white rounded-4 p-4 shadow-sm border">
+          <h4 class="fw-bold text-secondary mb-3"><i class="bi bi-receipt-cutoff text-primary"></i> Service Requests & Direct Purchases Audit</h4>
+          
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Customer</th>
+                  <th>Artisan / Entrepreneur</th>
+                  <th>Service / Product</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-table-body">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. All Onboarded Artisans Pane -->
+      <div class="tab-pane fade" id="entrepreneurs-list-pane">
+        <div class="bg-white rounded-4 p-4 shadow-sm border">
+          <h4 class="fw-bold text-secondary mb-3"><i class="bi bi-person-lines-fill text-primary"></i> Directory of Active Micro-Entrepreneurs</h4>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Artisan</th>
+                  <th>Category</th>
+                  <th>Location</th>
+                  <th>Completed Jobs</th>
+                  <th>Total Earnings</th>
+                  <th>Badge Status</th>
+                </tr>
+              </thead>
+              <tbody id="all-artisans-table-body">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Add Category Modal -->
+  <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold text-secondary">Add Skill Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="add-category-form" onsubmit="handleAddNewCategory(event)">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Category ID (Slug)</label>
+              <input type="text" class="form-control" id="new-cat-id" placeholder="e.g. woodcraft" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Display Title</label>
+              <input type="text" class="form-control" id="new-cat-name" placeholder="e.g. Woodcraft Artisan (Tarkhan)" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Bootstrap Icon Class</label>
+              <input type="text" class="form-control" id="new-cat-icon" value="bi-tree-fill" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Description</label>
+              <textarea class="form-control" id="new-cat-desc" rows="2" placeholder="Brief overview of skills..." required></textarea>
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-hunar-primary">Create Category</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    <div class="container text-center">
+      <p class="small text-white-50 mb-0">HunarHub Admin Governance Dashboard • Supporting Micro-Entrepreneurs</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminDashboard();
+    });
+
+    function initAdminDashboard() {
+      renderAdminStats();
+      renderVerificationQueue();
+      renderCategoriesGrid();
+      renderSupervisionOrders();
+      renderAllArtisansTable();
+    }
+
+    function renderAdminStats() {
+      const db = getDbState();
+      const totalEnts = db.entrepreneurs.length;
+      const verifiedEnts = db.entrepreneurs.filter(e => e.verified).length;
+      const totalReqs = db.serviceRequests.length;
+      const gmv = db.entrepreneurs.reduce((sum, e) => sum + (e.earnings || 0), 0);
+
+      const statsContainer = document.getElementById('admin-stats-grid');
+      if (statsContainer) {
+        statsContainer.innerHTML = `
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon terracotta"><i class="bi bi-people-fill"></i></div>
+              <div>
+                <div class="stat-number">${totalEnts}</div>
+                <div class="stat-label">Total Registered Artisans</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon emerald"><i class="bi bi-patch-check-fill"></i></div>
+              <div>
+                <div class="stat-number">${verifiedEnts}</div>
+                <div class="stat-label">Verified Master Artisans</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon indigo"><i class="bi bi-card-checklist"></i></div>
+              <div>
+                <div class="stat-number">${totalReqs}</div>
+                <div class="stat-label">Service Requests Booked</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="stat-card">
+              <div class="stat-icon gold"><i class="bi bi-cash-stack"></i></div>
+              <div>
+                <div class="stat-number">₹${gmv.toLocaleString()}</div>
+                <div class="stat-label">Total Platform GMV</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function renderVerificationQueue() {
+      const db = getDbState();
+      const approvals = db.pendingApprovals || [];
+      document.getElementById('pending-verification-count').textContent = approvals.length;
+
+      const tbody = document.getElementById('verification-table-body');
+      if (tbody) {
+        if (approvals.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No pending verification applications in queue.</td></tr>`;
+        } else {
+          tbody.innerHTML = approvals.map(app => `
+            <tr>
+              <td>
+                <div class="fw-bold text-secondary">${app.name}</div>
+                <div class="small text-muted"><i class="bi bi-telephone"></i> ${app.phone}</div>
+              </td>
+              <td><span class="badge bg-primary-subtle text-primary border px-2 py-1">${app.categoryName}</span></td>
+              <td class="small fw-semibold">${app.location}</td>
+              <td class="small">${app.experience}</td>
+              <td><span class="badge bg-success-subtle text-success border border-success"><i class="bi bi-shield-check"></i> ${app.documentProof}</span></td>
+              <td class="small text-muted">${app.appliedDate}</td>
+              <td>
+                <button class="btn btn-success btn-sm me-1" onclick="approveEntrepreneur('${app.id}')"><i class="bi bi-check-circle-fill"></i> Approve</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="rejectEntrepreneur('${app.id}')"><i class="bi bi-x-circle"></i> Reject</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    function approveEntrepreneur(appId) {
+      const db = getDbState();
+      const app = db.pendingApprovals.find(a => a.id === appId);
+      if (app) {
+        const newEnt = {
+          id: "ent_" + Date.now(),
+          name: app.name,
+          category: app.category,
+          categoryName: app.categoryName,
+          badge: "Verified Artisan",
+          verified: true,
+          rating: 5.0,
+          reviewCount: 1,
+          location: app.location,
+          phone: app.phone,
+          experience: app.experience,
+          bio: `${app.skills}. Recently verified micro-entrepreneur on HunarHub.`,
+          image: "assets/artisan_potter.jpg",
+          isAvailable: true,
+          earnings: 0,
+          completedOrders: 0,
+          services: [
+            { id: "srv_new_1", title: "General Custom Service Request", priceRange: "₹200 - ₹1,000", completionDays: 2, description: "Direct service customized per customer request." }
+          ],
+          products: []
+        };
+
+        db.entrepreneurs.push(newEnt);
+        db.pendingApprovals = db.pendingApprovals.filter(a => a.id !== appId);
+        saveDbState(db);
+
+        initAdminDashboard();
+        showToast(`Approved ${app.name}! Added to active marketplace.`, 'bi-patch-check-fill');
+      }
+    }
+
+    function rejectEntrepreneur(appId) {
+      const db = getDbState();
+      db.pendingApprovals = db.pendingApprovals.filter(a => a.id !== appId);
+      saveDbState(db);
+      initAdminDashboard();
+      showToast('Application rejected.');
+    }
+
+    function renderCategoriesGrid() {
+      const db = getDbState();
+      const container = document.getElementById('admin-categories-grid');
+      if (container) {
+        container.innerHTML = db.categories.map(c => `
+          <div class="col-md-4">
+            <div class="p-3 border rounded-3 bg-light d-flex align-items-center gap-3">
+              <div class="fs-2 text-primary"><i class="bi ${c.icon}"></i></div>
+              <div>
+                <h6 class="fw-bold mb-0">${c.name}</h6>
+                <div class="small text-muted">${c.desc || 'Micro-entrepreneur category'}</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function handleAddNewCategory(e) {
+      e.preventDefault();
+      const db = getDbState();
+      const newCat = {
+        id: document.getElementById('new-cat-id').value.trim().toLowerCase(),
+        name: document.getElementById('new-cat-name').value,
+        icon: document.getElementById('new-cat-icon').value,
+        desc: document.getElementById('new-cat-desc').value
+      };
+
+      db.categories.push(newCat);
+      saveDbState(db);
+
+      bootstrap.Modal.getInstance(document.getElementById('addCategoryModal')).hide();
+      renderCategoriesGrid();
+      showToast(`Category "${newCat.name}" added to taxonomy!`);
+    }
+
+    function renderSupervisionOrders() {
+      const db = getDbState();
+      const tbody = document.getElementById('admin-orders-table-body');
+      if (tbody) {
+        const reqs = db.serviceRequests || [];
+        tbody.innerHTML = reqs.map(r => `
+          <tr>
+            <td class="fw-bold text-secondary">#${r.id.slice(-4)}</td>
+            <td>
+              <div class="fw-bold">${r.customerName}</div>
+              <div class="small text-muted">${r.customerPhone}</div>
+            </td>
+            <td class="fw-semibold text-primary">${r.entrepreneurName}</td>
+            <td class="small">${r.serviceTitle}</td>
+            <td class="small text-muted">${r.dateRequested}</td>
+            <td>
+              <span class="badge ${r.status === 'Accepted' ? 'bg-success' : r.status === 'Completed' ? 'bg-primary' : 'bg-warning text-dark'} px-2 py-1">
+                ${r.status}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function renderAllArtisansTable() {
+      const db = getDbState();
+      const tbody = document.getElementById('all-artisans-table-body');
+      if (tbody) {
+        tbody.innerHTML = db.entrepreneurs.map(e => `
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img src="${e.image}" style="width: 38px; height: 38px; object-fit: cover; border-radius: 50%;">
+                <div class="fw-bold text-secondary">${e.name}</div>
+              </div>
+            </td>
+            <td><span class="badge bg-light text-dark border">${e.categoryName}</span></td>
+            <td class="small">${e.location}</td>
+            <td class="small fw-bold text-center">${e.completedOrders || 0}</td>
+            <td class="fw-bold text-success">₹${e.earnings.toLocaleString()}</td>
+            <td><span class="badge bg-success-subtle text-success border border-success"><i class="bi bi-patch-check-fill"></i> ${e.badge}</span></td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function resetDatabaseToSeed() {
+      if (confirm('Are you sure you want to reset the database state to initial sample data?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        initAdminDashboard();
+        showToast('Database reset to default seed state!', 'bi-arrow-counterclockwise');
+      }
+    }
+  </script>
+</body>
+</html>
